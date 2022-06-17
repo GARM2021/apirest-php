@@ -5,13 +5,17 @@
 /*======================================================================================*/
 class ControladorCursos
 {
-    public function index()//!C59 OK
+    public function index() //!C59 OK
     {
-        $json = array(
-            "detalle" => "mostrando todos los cursos Controlador.Cursos"
-        );
+        $cursos =   ModeloCursos::index("cursos");//!C61
 
-        echo json_encode($json, true);
+
+    $json = array(//!C61
+    "status" => 200,
+    "total_registros" => count($cursos),
+    "detalle" => $cursos
+    );          
+              echo json_encode($json, true);
 
         return;
     }
