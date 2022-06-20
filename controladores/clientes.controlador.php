@@ -77,6 +77,29 @@ class  ControladorClientes
             return;
         }
 
+         /*======================================================================================*/
+                              //! Validar que email no este repetido C64                                                            
+         /*======================================================================================*/
+
+         $clientes = ModeloClientes::index("clientes");
+
+       
+         foreach ($clientes as $key => $value) {
+            
+            if ($value['email'] == $datos['email']) {
+
+                $json = array(
+                    "detalle" => "email ya existe en ela base de datos" 
+                );
+        
+                echo '<pre>'; print_r( $json ); echo '</pre>';
+        
+            }
+
+            # code...
+         }
+
+    
         $json = array(
             "detalle" => "estoy en registro CONTROLADOR clientes POST GUARDADO"
         );
