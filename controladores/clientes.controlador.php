@@ -77,37 +77,40 @@ class  ControladorClientes
             return;
         }
 
-         /*======================================================================================*/
-                              //! Validar que email no este repetido C64                                                            
-         /*======================================================================================*/
+        /*======================================================================================*/
+        //! Validar que email no este repetido C64                                                            
+        /*======================================================================================*/
 
-         $clientes = ModeloClientes::index("clientes");
+        $clientes = ModeloClientes::index("clientes");
 
-       
-         foreach ($clientes as $key => $value) {
-            
+
+        foreach ($clientes as $key => $value) {
+
             if ($value['email'] == $datos['email']) {
 
                 $json = array(
-                    "detalle" => "email ya existe en ela base de datos" 
+                    "detalle" => "email ya existe en ela base de datos"
                 );
-        
-                echo '<pre>'; print_r( $json ); echo '</pre>';
-        
+
+                echo '<pre>';
+                print_r($json);
+                echo '</pre>';
             }
 
             # code...
-         }
+        }
 
-    
-        $json = array(
-            "detalle" => "estoy en registro CONTROLADOR clientes POST GUARDADO"
-        );
+        //   /*======================================================================================*/
+        //                        //!C65 Credenciales del Cliente                                                           
+        //   /*======================================================================================*/
+  
+         $id_cliente = str_replace("a","o",crypt($datos["nombre"] . $datos["apellido"] . $datos["email"], 'lapazesteconustedes')); //!C65 no use el string de prefijo y de subfijo que dice el curso ??
 
-        echo '<pre>'; print_r( $json ); echo '</pre>';
-
-      
-      
-      
+         $id_llavesecreta = str_replace("o","a",crypt($datos["email"] . $datos["apellido"] . $datos["nombre"], 'lapazesteconustedes'));
+  
+        echo '<pre>'; print_r( $id_cliente ); echo '</pre>';
+        echo '<pre>'; print_r( $id_llavesecreta ); echo '</pre>';
+        
+        
     }
 }
