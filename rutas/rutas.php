@@ -40,8 +40,18 @@ if (($arrRut2) == "") {
 
             if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") { //!C59
 
+                /*======================================================================================*/
+                //!C62 CAPTURANDO DATOS                                                             
+                /*======================================================================================*/
+
+                $datos = array(
+                    "nombre" => $_POST["nombre"],
+                    "apellido" => $_POST["apellido"],
+                    "email" => $_POST["email"]
+                );
+
                 $registro = new  ControladorClientes();
-                $registro->create();
+                $registro->create($datos);//!C62 
                 return;
 
                 $json = array(
