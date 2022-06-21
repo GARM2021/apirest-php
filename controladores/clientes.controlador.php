@@ -103,14 +103,61 @@ class  ControladorClientes
         //   /*======================================================================================*/
         //                        //!C65 Credenciales del Cliente                                                           
         //   /*======================================================================================*/
-  
-         $id_cliente = str_replace("a","o",crypt($datos["nombre"] . $datos["apellido"] . $datos["email"], 'lapazesteconustedes')); //!C65 no use el string de prefijo y de subfijo que dice el curso ??
 
-         $id_llavesecreta = str_replace("o","a",crypt($datos["email"] . $datos["apellido"] . $datos["nombre"], 'lapazesteconustedes'));
-  
-        echo '<pre>'; print_r( $id_cliente ); echo '</pre>';
-        echo '<pre>'; print_r( $id_llavesecreta ); echo '</pre>';
+        $id_cliente = str_replace("a", "o", crypt($datos["nombre"] . $datos["apellido"] . $datos["email"], 'lapazesteconustedes')); //!C65 no use el string de prefijo y de subfijo que dice el curso ??
+
+        $llavesecreta = str_replace("o", "a", crypt($datos["email"] . $datos["apellido"] . $datos["nombre"], 'lapazesteconustedes'));
+
+        /*======================================================================================*/
+        //                       //!C66 LLevar datos al Modelo                                                             
+        /*======================================================================================*/
+
+       
+         
+		$datos = array("nombre"=>$datos["nombre"],
+        "apellido"=>$datos["apellido"],
+        "demail"=>$datos["email"],
+        "did_cliente"=>$id_cliente,
+        "dllave_secreta"=>$llavesecreta,
+        "dcreated_at"=>date('Y-m-d h:i:s'),
+        "dupdated_at"=>date('Y-m-d h:i:s')
+        );   
+
+
+        $create = ModeloClientes::create("clientes",  $datos);
+
+
+        /*======================================================================================*/
+        //                  //!C66 Respuesta del Modelo                                                             
+        /*======================================================================================*/
+
         
-        
+        if ($create == 'ok'){
+
+            $json = array(
+                "status"=>200,
+                "detalle" => "Registro exitoso, tome sus credenciales y guadelas",
+                "id_cliente"=>array("id_cliente"=>$id_cliente, "llave_secreta"=>$llavesecreta)
+            );
+
+            echo json_encode($json, true);
+
+            return;
+
+            # code...
+        }
+
+        echo '<pre>'; print_r( $create ); echo '</pre>';
+
+
+
+
+
+        echo '<pre>';
+        print_r($id_cliente);
+        echo '</pre>';
+        echo '<pre>';
+        print_r($llavesecreta);
+        echo '</pre>';
     }
 }
