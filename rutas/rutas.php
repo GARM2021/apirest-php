@@ -66,9 +66,7 @@ if (($arrRut2) == "") {
 
 
             # code...
-        }
-
-        if ($arrRut2 == "cursos") {
+        }elseif ($arrRut2 == "cursos") {
 
             /*======================================================================================*/
             //! Peticiones GET                                                            
@@ -170,6 +168,17 @@ if (($arrRut2) == "") {
                     return;
                 }
             }
+        }else
+        {
+            $json = array(
+
+                "detalle" => "no encontrado"
+            );
+        
+            echo json_encode($json, true);
+        
+            return;
         }
+        
     }
 }

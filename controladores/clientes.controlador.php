@@ -95,10 +95,14 @@ class  ControladorClientes
                 echo '<pre>';
                 print_r($json);
                 echo '</pre>';
+
+                return;
             }
 
-            # code...
+            
         }
+         
+
 
         //   /*======================================================================================*/
         //                        //!C65 Credenciales del Cliente                                                           
