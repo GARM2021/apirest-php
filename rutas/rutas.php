@@ -51,7 +51,7 @@ if (($arrRut2) == "") {
                 );
 
                 $registro = new  ControladorClientes();
-                $registro->create($datos);//!C62 
+                $registro->create($datos); //!C62 
                 return;
 
                 $json = array(
@@ -66,7 +66,7 @@ if (($arrRut2) == "") {
 
 
             # code...
-        }elseif ($arrRut2 == "cursos") {
+        } elseif ($arrRut2 == "cursos") {
 
             /*======================================================================================*/
             //! Peticiones GET                                                            
@@ -91,8 +91,21 @@ if (($arrRut2) == "") {
 
             if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") { //!C59
 
+                /*======================================================================================*/
+                //!C69 Capturar Datos                                                             
+                /*======================================================================================*/
+
+                $datos = array(
+                    "titulo" => $_POST["titulo"],
+                    "descripcion" => $_POST["descripcion"],
+                    "instructor" => $_POST["instructor"],
+                    "imagen" => $_POST["imagen"],
+                    "precio" => $_POST["precio"]
+                );
+
+
                 $crearcursos = new  ControladorCursos();
-                $crearcursos->create();
+                $crearcursos->create($datos);//!69 se incluyo $datos
                 return;
                 $json = array(
                     "detalle" => "estoy Controlador cursos en CREATE cursos"
@@ -168,17 +181,15 @@ if (($arrRut2) == "") {
                     return;
                 }
             }
-        }else
-        {
+        } else {
             $json = array(
 
                 "detalle" => "no encontrado"
             );
-        
+
             echo json_encode($json, true);
-        
+
             return;
         }
-        
     }
 }

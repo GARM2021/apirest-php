@@ -5,29 +5,29 @@ class  ControladorClientes
 
     public function create($datos) //!C59 OK
     {
-        /*======================================================================================*/
-        //!C63 Validando nombre                                                            
-        /*======================================================================================*/
-        if (isset($datos["nombre"]) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["nombre"])) {
+                        /*======================================================================================*/
+                        //!C63 Validando nombre                                                            
+                        /*======================================================================================*/
+                        if (isset($datos["nombre"]) && !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $datos["nombre"])) {
 
-            $json = array(
-                "status" => 404,
-                "detalle" => "Error en el campo nombre, solo letras "
-            );
+                            $json = array(
+                                "status" => 404,
+                                "detalle" => "Error en el campo nombre, solo letras "
+                            );
 
 
 
-            echo '<pre>';
-            print_r($json);
-            echo '</pre>';
-            $json = array(
-                "detalle" => "estoy en registro CONTROLADOR clientes POST"
-            );
+                            echo '<pre>';
+                            print_r($json);
+                            echo '</pre>';
+                            $json = array(
+                                "detalle" => "estoy en registro CONTROLADOR clientes POST"
+                            );
 
-            echo json_encode($json, true);
+                            echo json_encode($json, true);
 
-            return;
-        }
+                            return;
+                        }
 
         /*======================================================================================*/
         //!C63 Validando apellido                                                            
