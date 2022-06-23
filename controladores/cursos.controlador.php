@@ -80,31 +80,30 @@ class ControladorCursos
                     print_r($datos);
                     echo '</pre>';
 
-                   
+
                     /*======================================================================================*/
                     //!C63 Validando nombre                                                            
                     /*======================================================================================*/
 
-                  foreach ($datos as $key => $valueDatos) {
+                    foreach ($datos as $key => $valueDatos) {
 
-                   
 
-						if(isset($valueDatos) && !preg_match('/^[[(\\)\\=\\&\\$\\;\\-\\_\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $valueDatos)){
-						//if(isset($valueDatos) && preg_match('/^[\\+\\#]+$/', $valueDatos)){
 
-							$json = array(
+                        if (isset($valueDatos) && !preg_match('/^[[(\\)\\=\\&\\$\\;\\-\\_\\*\\"\\<\\>\\?\\¿\\!\\¡\\:\\,\\.\\0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $valueDatos)) {
+                            //if(isset($valueDatos) && preg_match('/^[\\+\\#]+$/', $valueDatos)){
 
-								"status"=>404,
-								"detalle"=>"Error en el campo ".$key
+                            $json = array(
 
-							);
+                                "status" => 404,
+                                "detalle" => "Error en el campo " . $key
 
-							echo json_encode($json, true);
+                            );
 
-							return;
-						}
+                            echo json_encode($json, true);
 
-					}
+                            return;
+                        }
+                    }
 
 
 
@@ -113,11 +112,96 @@ class ControladorCursos
                     /*======================================================================================*/
                     //!C69 Validar que el titulo o la descripcion no este repetido                                                           
                     /*======================================================================================*/
+                    $cursos = ModeloCursos::index("cursos");
 
+                    foreach ($cursos as $key => $value) {
+
+                        //!C69  normalmente usariamos $value["titulo"] pero como se ejecuto el query con PDO::FETCH_CLASS se utiliza la sintaxis con -> 
+
+                        if ($value->titulo == $datos["titulo"]) {
+
+                            $json = array(
+
+                                "status" => 404,
+                                "detalle" => "Titulo duplicado " . $value->titulo
+
+                            );
+
+                            echo json_encode($json, true);
+
+                            return;
+                            # code...
+                        }
+
+                        if ($value->descripcion == $datos["descripcion"]) {
+
+                            $json = array(
+
+                                "status" => 404,
+                                "detalle" => "Descripcion duplicado " . $value->descripcion
+
+                            );
+
+                            echo json_encode($json, true);
+
+                            return;
+                            # code...
+                        }
+                    }
+
+                    /*======================================================================================*/
+                    //!C69 Llevar  Datos al modelo modelo                                                          
+                    /*======================================================================================*/
+
+
+                    $datos = array(
+                        "titulo" => $datos["titulo"],
+                        "descripcion" => $datos["descripcion"],
+                        "instructor" => $datos["instructor"],
+                        "imagen" => $datos["imagen"],
+                        "precio" => $datos["precio"],
+                        "id" => $valueClientes["id"],
+                        "dcreated_at" => date('Y-m-d h:i:s'),
+                        "dupdated_at" => date('Y-m-d h:i:s')
+                    );
+
+                    $create = ModeloCursos::create("cursos", $datos);
+                    if ($create == 'ok') {
+
+                        $json = array(
+                            "status" => 200,
+                            "detalle" => "Registro exitoso, su curso a sido dado de alta",
+                        );
+
+                        echo json_encode($json, true);
+
+                        return;
+
+                        # code...
+                    } else {
+                        $json = array(
+
+                            "status" => 404,
+                            "detalle" => "token no valido  " . $value->titulo
+
+                        );
+
+                        echo json_encode($json, true);
+
+                        return;
+                        # code...
+                    }
+
+
+
+                    return;
 
                     /*======================================================================================*/
                     //!C69 Validar Datos del modelo                                                          
                     /*======================================================================================*/
+
+
+
 
 
                     /*======================================================================================*/
