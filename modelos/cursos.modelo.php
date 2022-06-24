@@ -53,4 +53,28 @@ class ModeloCursos
         
         # code...
     }
+
+    static public function show($tabla, $id)
+    {
+
+        $json = array(
+            "detalle" => "estoy en SHOW  Modelo  de Cursos " . $id
+        );
+
+        echo json_encode($json, true);
+
+    
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id = :id"); //!C70
+
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        //  $stmt -> close();
+
+        // $stmt = null;
+    }
 }

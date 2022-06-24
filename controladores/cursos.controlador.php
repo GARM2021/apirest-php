@@ -60,7 +60,7 @@ class ControladorCursos
 
 
 
-    public function create($datos) //!C59 OK
+    public function create($datos) //!C69 OK
     {
         $clientes = ModeloClientes::index("clientes");
 
@@ -82,7 +82,7 @@ class ControladorCursos
 
 
                     /*======================================================================================*/
-                    //!C63 Validando nombre                                                            
+                    //!C63 Validando CAMPOS                                                          
                     /*======================================================================================*/
 
                     foreach ($datos as $key => $valueDatos) {
@@ -247,7 +247,7 @@ class ControladorCursos
     }
 
 
-    public function update($id) //!C59
+    public function update($id) //!C70
     {
         $json = array(
             "detalle" => "Estoy en UPDATE  curso ID " . $id
@@ -260,14 +260,64 @@ class ControladorCursos
 
     public function show($id) //!C59
     {
-        $json = array(
-            "detalle" => "Estoy en SHOW  curso ID " . $id
-        );
 
-        echo json_encode($json, true);
+        
+        $clientes = ModeloClientes::index("clientes");
 
-        return;
+
+        if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+
+
+            foreach ($clientes as $key => $valueClientes) {
+
+                /*======================================================================================*/
+                //!C70                                                             
+                /*======================================================================================*/
+
+                if ("Basic " . base64_encode($_SERVER['PHP_AUTH_USER'] . ":" . $_SERVER['PHP_AUTH_PW']) == "Basic " . base64_encode($valueClientes["id_cliente"] . ":" . $valueClientes["llave_secreta"])) {
+
+                    /*======================================================================================*/
+                    //! Mostrar todos el curso                                                            
+                    /*======================================================================================*/
+
+                    $curso =   ModeloCursos::show("cursos", $id); //!C70
+
+                    if (!empty($curso)) {
+                        $json = array( //!C70
+                            "status" => 200,
+                            "detalle" => $curso
+                        );
+                        echo json_encode($json, true);
+                        return;
+                    } else {
+
+                        $json = array(
+
+                            "status" => 202,
+                            " total de registros " => 0,
+                            "detalle" => "no hay ningun curso registrado"
+                        );
+                        echo json_encode($json, true);
+                        return;
+                        # code...
+                    }
+
+                    # code...
+                }
+            }
+
+            $json = array(
+
+                "estatus" => 404,
+                "detalle" => "no autorizado"
+            );
+
+            echo json_encode($json, true);
+
+            return;
+        }
     }
+
 
     public function delete($id) //!C59
     {

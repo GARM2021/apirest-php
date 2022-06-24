@@ -133,7 +133,6 @@ if (($arrRut2) == "") {
                     $actualizacurso->update((array_filter($arrayRutas)[3]));
                     return;
 
-
                     $json = array(
                         "detalle" => "estoy en un solo  curso " . $arrayRutas[3]
                     );
@@ -148,18 +147,14 @@ if (($arrRut2) == "") {
 
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") { //!C59
 
+                  
+
                     $mostrarcurso = new  ControladorCursos();
                     $mostrarcurso->show((array_filter($arrayRutas)[3]));
-                    return;
+                   // return;
 
 
-                    $json = array(
-                        "detalle" => "estoy en un solo  curso " . $arrayRutas[3]
-                    );
-
-                    echo json_encode($json, true);
-
-                    return;
+                   
                 }
             }
 
@@ -181,7 +176,19 @@ if (($arrRut2) == "") {
                     return;
                 }
             }
-        } else {
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        }else {
             $json = array(
 
                 "detalle" => "no encontrado"
