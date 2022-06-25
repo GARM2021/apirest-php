@@ -129,17 +129,25 @@ if (($arrRut2) == "") {
 
                 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") { //!C59
 
+
+                     /*======================================================================================*/
+                                          //! C70 Captura de Datos.                                                             
+                     /*======================================================================================*/
+
+                    $datos = array();
+
+                    parse_str(file_get_contents('php://input'), $datos);
+                  //  $datosuno = file_get_contents('php://input'); //!C70 Muestra el contenido sin formato como string 
+
+                   // echo 'PUT <pre>'; print_r( $datos ); echo '</pre>';
+
+                   //return;
+
                     $actualizacurso = new  ControladorCursos();
-                    $actualizacurso->update((array_filter($arrayRutas)[3]));
+                    $actualizacurso->update((array_filter($arrayRutas)[3]), $datos);//!C70 
                     return;
 
-                    $json = array(
-                        "detalle" => "estoy en un solo  curso " . $arrayRutas[3]
-                    );
-
-                    echo json_encode($json, true);
-
-                    return;
+                  
                 }
             }
 

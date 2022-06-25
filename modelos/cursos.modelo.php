@@ -17,9 +17,9 @@ class ModeloCursos
 
         // $stmt = null;
     }
-     /*======================================================================================*/
-                          //!C69                                                              
-     /*======================================================================================*/
+    /*======================================================================================*/
+    //!C69                                                              
+    /*======================================================================================*/
     static public function create($table, $datos)
     {
 
@@ -33,7 +33,7 @@ class ModeloCursos
         $stmt->bindParam(':instructor',  $datos["instructor"], PDO::PARAM_STR);
         $stmt->bindParam(':imagen', $datos["imagen"], PDO::PARAM_STR);
         $stmt->bindParam(':precio', $datos["precio"], PDO::PARAM_STR);
-        $stmt->bindParam(':id_creador', $datos["id_creador"], PDO::PARAM_STR);
+        $stmt->bindParam(':id_creador', $datos["id_creador"], PDO::PARAM_INT);
         $stmt->bindParam(':created_at', $datos["dcreated_at"], PDO::PARAM_STR);
         $stmt->bindParam(':updated_at', $datos["dupdated_at"], PDO::PARAM_STR);
 
@@ -42,15 +42,17 @@ class ModeloCursos
 
             return "ok";
             # code...
-        }else {
-            echo '<pre>'; print_r(Conexion::conectar()->errorInfo() ); echo '</pre>';
-                    }
+        } else {
+            echo '<pre>';
+            print_r(Conexion::conectar()->errorInfo());
+            echo '</pre>';
+        }
 
-               $stmt->closeCursor();
-               $stmt = null;   
+        $stmt->closeCursor();
+        $stmt = null;
 
-      
-        
+
+
         # code...
     }
 
@@ -63,7 +65,7 @@ class ModeloCursos
 
         echo json_encode($json, true);
 
-    
+
         $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id = :id"); //!C70
 
 
@@ -73,8 +75,43 @@ class ModeloCursos
 
         return $stmt->fetchAll(PDO::FETCH_CLASS);
 
-        //  $stmt -> close();
+        // $stmt -> close();
 
         // $stmt = null;
+    }
+
+    /*======================================================================================*/
+    //!C70 ACTUALIZA CURSOS                                                              
+    /*======================================================================================*/
+    static public function update($table, $datos)
+    {
+
+
+
+        $stmt = Conexion::conectar()->prepare("UPDATE cursos SET titulo=:titulo,descripcion=:descripcion,instructor=:instructor,imagen=:imagen,precio=:precio,updated_at=:dupdated_at WHERE id = :id"); //!C69
+
+
+        
+        $stmt->bindParam(':id', $datos["id"], PDO::PARAM_STR);
+        $stmt->bindParam(':titulo', $datos["titulo"], PDO::PARAM_STR);
+        $stmt->bindParam(':descripcion', $datos["descripcion"], PDO::PARAM_STR);
+        $stmt->bindParam(':instructor',  $datos["instructor"], PDO::PARAM_STR);
+        $stmt->bindParam(':imagen', $datos["imagen"], PDO::PARAM_STR);
+        $stmt->bindParam(':precio', $datos["precio"], PDO::PARAM_STR);
+        $stmt->bindParam(':dupdated_at', $datos["dupdated_at"], PDO::PARAM_STR);
+
+
+        if ($stmt->execute()) {
+
+            return "ok";
+            # code...
+        } else {
+            echo '<pre>';
+            print_r(Conexion::conectar()->errorInfo());
+            echo '</pre>';
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 }
